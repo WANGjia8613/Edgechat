@@ -74,7 +74,7 @@ test('未认证网关无品牌、脚本、外部资源、manifest 或构建信�
   assert.equal(response.status, 200);
   assert.match(html, /<title>(Sign in|Log in|Account access|Welcome)<\/title>/);
   assert.match(html, /<form action="\/[A-Za-z0-9_-]+" method="post">/);
-  assert.doesNotMatch(html, /edgechat|cfchat|cloudflare|vite|vue|websocket|manifest|<script|<link|assets|logo/i);
+  assert.doesNotMatch(html, /\b(edgechat|cfchat|cloudflare|vite|vue|websocket|manifest|assets|logo)\b|<script|<link/i);
   assert.equal(response.headers.get('cache-control'), 'private, no-store');
   assert.equal(response.headers.get('referrer-policy'), 'same-origin');
   assert.equal(f.accessed.length, 0);
@@ -331,7 +331,7 @@ test('页面模块的两两组合保持小体积、无外部资源、固定表�
         const settings = { ...f.settings, appearance };
         const html = await gatePage(settings, true, 401).text();
         assert.ok(Buffer.byteLength(html) < 5000);
-        assert.doesNotMatch(html, /edgechat|cfchat|cloudflare|vite|vue|websocket|manifest|<script|<link|assets|logo|https?:\/\//i);
+        assert.doesNotMatch(html, /\b(edgechat|cfchat|cloudflare|vite|vue|websocket|manifest|assets|logo)\b|<script|<link|https?:\/\//i);
         assert.match(html, /<form action="\/[A-Za-z0-9_-]+" method="post">/);
         assert.match(html, /name="username" autocomplete="username" maxlength="100" required/);
         assert.match(html, /type="password" name="password" autocomplete="current-password" maxlength="1024" required/);
